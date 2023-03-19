@@ -51,8 +51,9 @@ router.post("/", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
     let db = JSON.parse(fs.readFileSync(dbFilePath));
+    let lastValue = db.data[db.data.length - 1];
 
-    res.status(200).send(db);
+    res.status(200).send(lastValue);
 });
 
 
