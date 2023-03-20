@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../../../esp_nodejs_server_dht"
+		},
+		{
+			"name": "nodejs_server_dht_sensor",
+			"path": "."
+		}
+	],
+	"settings": {}
+}
