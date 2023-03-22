@@ -1,25 +1,32 @@
 #include <Arduino.h>
-//#include "DHT.h"
+#include "DHT.h"
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 //#define DHTPIN 1     // what digital pin the DHT11 is conected to
-//#define DHTTYPE DHT11   // setting the type as DHT11
-//DHT dht(DHTPIN, DHTTYPE);
+#define DHTTYPE DHT22   // setting the type as DHT22
+
+// DHT Sensor
+uint8_t DHTPin = D8; 
+
+DHT dht(DHTPin, DHTTYPE);
 const char *ssid = "KASEE"; //Enter your WIFI ssid
 const char *password = "Kasee579*"; //Enter your WIFI password
 //const char *server_url = "http://192.168.0.108:8000/api/";// Nodejs application endpoint
 //StaticJsonDocument<200> doc;
-float h = 12.0;
-float t = 13.0;
+//float h = 12.0;
+//float t = 13.0;
 //Set up the client objet
 WiFiClient client;
 HTTPClient http;
 void setup() {
    delay(3000);
    Serial.begin(115200);
-//   dht.begin();
+
+   //initialize dht sensor
+   dht.begin();
+
    WiFi.begin(ssid, password);
    while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -29,8 +36,8 @@ void setup() {
    delay(1000);
 }
 void loop() {
- // float h = dht.readHumidity();
- // float t = dht.readTemperature();         
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();         
   Serial.print("Humidity = ");
   Serial.print(h);
   Serial.print("%  ");
@@ -62,7 +69,7 @@ void loop() {
     */
 
   // Send request
-  http.begin(client, "http://192.168.0.108:6000/api/");
+  http.begin(client, "http://192.168.0.108:8000/api/");
   http.addHeader("Content-Type", "application/json");
   int httpCode = http.POST(json);
 
@@ -80,7 +87,7 @@ void loop() {
          Serial.printf("[HTTP] GET... failed, error: %s", http.errorToString(httpCode).c_str());
    }
     http.end();
-    delay(5000);
-    h += 1;
-    t += 1;
+    delay(60000);
+   //h += 1;
+   //t += 1;
 }

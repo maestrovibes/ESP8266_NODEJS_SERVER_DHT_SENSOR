@@ -4,8 +4,8 @@ import router from './routes/router.js';
 
 const app = express();
 
-//const PORT = process.env.PORT || 8000;
-const PORT = 6000;
+const PORT = process.env.PORT || 8000;
+//const PORT = 6000;
 // middlewares
 app.use(express.json());
 app.use("/api", router);
